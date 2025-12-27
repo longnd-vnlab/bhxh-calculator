@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body bg-background text-text-primary antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  /* Glass Card - Fintech Style */
+  .card-glass {
+    @apply relative overflow-hidden;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  }
+
+  /* Premium Card */
+  .card-premium {
+    @apply relative overflow-hidden rounded-2xl;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 60px -15px rgba(0, 128, 255, 0.2);
+  }
+
+  /* Buttons */
+  .btn {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 cursor-pointer focus-visible:ring-2 focus-visible:ring-offset-2 relative overflow-hidden;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-primary-dark text-white hover:shadow-glow focus-visible:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary-dark text-slate-900 hover:shadow-glow focus-visible:ring-secondary;
+  }
+
+  .btn-accent {
+    @apply bg-gradient-to-r from-accent to-accent-dark text-white hover:shadow-glow-accent focus-visible:ring-accent;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white hover:shadow-glow focus-visible:ring-primary;
+  }
+
+  .btn-glass {
+    @apply bg-glass border border-border-glass backdrop-blur-md text-text-primary hover:bg-glass-light;
+  }
+
+  /* Standard Card */
+  .card {
+    @apply bg-surface rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-border-light cursor-pointer;
+  }
+
+  /* Metric Card - Fintech Stats */
+  .metric-card {
+    @apply relative p-6 rounded-2xl border border-border-light bg-gradient-to-br from-surface to-background overflow-hidden;
+  }
+
+  .metric-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-1 bg-gradient-premium;
+  }
+
+  /* Input Fields */
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-border rounded-xl bg-surface focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all duration-200;
+  }
+
+  .label {
+    @apply block text-sm font-semibold text-text-primary mb-2;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply bg-primary/10 text-primary border border-primary/20;
+  }
+
+  .badge-success {
+    @apply bg-success/10 text-success border border-success/20;
+  }
+
+  .badge-glass {
+    @apply bg-glass border border-border-glass backdrop-blur-md text-text-primary;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-premium;
+  }
+
+  .border-gradient {
+    border-image: linear-gradient(135deg, #0080FF, #00FFFF, #FF1493) 1;
+  }
+}
+
+/* Aurora Background Animation */
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.aurora-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+  background-size: 400% 400%;
+  animation: aurora 15s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .aurora-bg {
+    animation: none;
+  }
+}
