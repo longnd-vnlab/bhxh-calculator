@@ -220,10 +220,13 @@ class CalculationEngine:
         )
 
     def _split_periods_by_cutoff(self, periods: List[PeriodSchema]) -> List[PeriodSchema]:
-        """Split periods that cross the 2014 cutoff date into two periods"""
-        result = []
+        """Split periods that cross the 2014 cutoff date AND by calendar year for proper coefficient calculation"""
+        # First split by year to ensure each year gets its own coefficient
+        year_split_periods = self._split_periods_by_year(periods)
 
-        for period in periods:
+        # Then split by 2014 cutoff for era classification
+        result = []
+        for period in year_split_periods:
             start_date = datetime.strptime(period.start_date, '%Y-%m-%d')
             end_date = datetime.strptime(period.end_date, '%Y-%m-%d')
 
@@ -246,6 +249,36 @@ class CalculationEngine:
                     end_date=period.end_date,
                     monthly_salary=period.monthly_salary
                 ))
+
+        return result
+
+    def _split_periods_by_year(self, periods: List[PeriodSchema]) -> List[PeriodSchema]:
+        """Split periods that span multiple calendar years into yearly periods"""
+        result = []
+
+        for period in periods:
+            start_date = datetime.strptime(period.start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(period.end_date, '%Y-%m-%d')
+
+            # If period is within same year, keep as is
+            if start_date.year == end_date.year:
+                result.append(period)
+            else:
+                # Split into multiple yearly periods
+                current_date = start_date
+                while current_date <= end_date:
+                    year = current_date.year
+                    year_end = datetime(year, 12, 31)
+                    period_end = min(year_end, end_date)
+
+                    result.append(PeriodSchema(
+                        start_date=current_date.strftime('%Y-%m-%d'),
+                        end_date=period_end.strftime('%Y-%m-%d'),
+                        monthly_salary=period.monthly_salary
+                    ))
+
+                    # Move to next year
+                    current_date = datetime(year + 1, 1, 1)
 
         return result
 
